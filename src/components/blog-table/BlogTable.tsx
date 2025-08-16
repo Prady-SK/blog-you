@@ -4,9 +4,13 @@ import {
   Paper,
   useMediaQuery,
   Box,
-  Table,
+  TextField,
+  MenuItem,
+  IconButton,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { BlogPost } from "../../types";
 import { useNavigate } from "react-router-dom";
 import BlogTableToolbar from "./BlogTableToolbar";
@@ -68,54 +72,92 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
   };
 
   return (
-    <Box sx={{ mt: { xs: 0, md: 3 }, borderRadius: { md: 2 } }}>
-      <Box
+    <Box sx={{ mt: { xs: 1, md: 3 }, borderRadius: 2 }}>
+      <Paper
         sx={{
-          py: { xs: 2, sm: 2 },
-          borderBottom: !isMobile
-            ? `1px solid ${theme.palette.divider}`
-            : "none",
-          backgroundColor: "transparent",
+          borderRadius: 3,
+          overflow: "hidden",
+          boxShadow: 3,
+          backgroundColor: theme.palette.background.paper,
         }}
       >
-        <BlogTableToolbar
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          onAddPost={() => {
-            setEditingPost(undefined);
-            setDialogOpen(true);
-          }}
-        />
-      </Box>
-
-      {/* Table or Card list */}
-      {isMobile ? (
-        <PostCardList
-          posts={filteredPosts.slice(
-            page * rowsPerPage,
-            page * rowsPerPage + rowsPerPage
-          )}
-          onEdit={(post) => {
-            setEditingPost(post);
-            setDialogOpen(true);
-          }}
-          onDelete={(post) => {
-            setDeletingPost(post);
-            setDeleteDialogOpen(true);
-          }}
-          navigate={navigate}
-        />
-      ) : (
-        <Paper
+        {/* Toolbar */}
+        <Box
           sx={{
-            borderRadius: 3,
-            overflow: "hidden",
-            boxShadow: 3,
-            backgroundColor: theme.palette.background.paper,
+            p: { xs: 1.5, sm: 2 },
+            borderBottom: `1px solid ${theme.palette.divider}`,
           }}
         >
+          <BlogTableToolbar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            onAddPost={() => {
+              setEditingPost(undefined);
+              setDialogOpen(true);
+            }}
+          />
+        </Box>
+
+        {/* Mobile sort controls */}
+        {isMobile && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              px: 2,
+              pb: 1,
+              gap: 1,
+            }}
+          >
+            <TextField
+              select
+              size="small"
+              label="Sort by"
+              value={sortConfig.key}
+              onChange={(e) => handleSort(e.target.value as keyof BlogPost)}
+              sx={{ minWidth: 140 }}
+            >
+              <MenuItem value="title">Title</MenuItem>
+              <MenuItem value="date">Date</MenuItem>
+            </TextField>
+
+            <IconButton
+              onClick={() =>
+                setSortConfig((prev) => ({
+                  ...prev,
+                  order: prev.order === "asc" ? "desc" : "asc",
+                }))
+              }
+            >
+              {sortConfig.order === "asc" ? (
+                <ArrowUpwardIcon fontSize="small" />
+              ) : (
+                <ArrowDownwardIcon fontSize="small" />
+              )}
+            </IconButton>
+          </Box>
+        )}
+
+        {/* Table or Card list */}
+        {isMobile ? (
+          <PostCardList
+            posts={filteredPosts.slice(
+              page * rowsPerPage,
+              page * rowsPerPage + rowsPerPage
+            )}
+            onEdit={(post) => {
+              setEditingPost(post);
+              setDialogOpen(true);
+            }}
+            onDelete={(post) => {
+              setDeletingPost(post);
+              setDeleteDialogOpen(true);
+            }}
+            navigate={navigate}
+          />
+        ) : (
           <Box sx={{ overflowX: "auto" }}>
-            <Table style={{ width: "100%", borderSpacing: 0 }}>
+            <table style={{ width: "100%", borderSpacing: 0 }}>
               <BlogTableHead
                 sortConfig={sortConfig}
                 onSortChange={handleSort}
@@ -135,27 +177,24 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
                 }}
                 navigate={navigate}
               />
-            </Table>
+            </table>
           </Box>
-        </Paper>
-      )}
+        )}
+      </Paper>
 
       {/* Pagination */}
       <Box
         sx={{
           display: "flex",
           justifyContent: { xs: "center", sm: "flex-end" },
-          mt: isMobile ? 1 : 2,
-          px: isMobile ? 0 : 2,
+          mt: 2,
         }}
       >
         <TablePagination
           sx={{
             ".MuiTablePagination-toolbar": { px: 0 },
             ".MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows":
-              {
-                fontSize: "0.85rem",
-              },
+              { fontSize: "0.85rem" },
           }}
           component="div"
           count={filteredPosts.length}
