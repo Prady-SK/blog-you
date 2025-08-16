@@ -2,6 +2,7 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Box, Typography, Button, Container, Paper } from "@mui/material";
 import { BlogPost } from "../../types";
+import { viewPostCMS } from "../../cms/viewPost";
 
 const ViewPage: React.FC = () => {
   const { id } = useParams();
@@ -16,10 +17,10 @@ const ViewPage: React.FC = () => {
     return (
       <Container sx={{ mt: 4 }}>
         <Typography variant="h6" color="error">
-          Post not found!
+          {viewPostCMS.notFoundMessage}
         </Typography>
         <Button onClick={() => navigate("/")} sx={{ mt: 2 }}>
-          Back to Dashboard
+          {viewPostCMS.backToDashboard}
         </Button>
       </Container>
     );
@@ -28,7 +29,7 @@ const ViewPage: React.FC = () => {
   return (
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
       <Button variant="outlined" onClick={() => navigate("/")} sx={{ mb: 2 }}>
-        Back
+        {viewPostCMS.backButton}
       </Button>
 
       <Paper sx={{ p: 3 }}>
@@ -36,7 +37,7 @@ const ViewPage: React.FC = () => {
           {post.title}
         </Typography>
         <Typography variant="subtitle2" color="textSecondary">
-          By {post.author} | {post.date} | {post.status}
+          {viewPostCMS.authorPrefix} {post.author} | {post.date} | {post.status}
         </Typography>
 
         <Box sx={{ mt: 3 }}>

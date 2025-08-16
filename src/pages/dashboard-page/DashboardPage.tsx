@@ -11,6 +11,7 @@ import { BlogPost } from "../../types";
 import BlogTable from "../../components/blog-table/BlogTable";
 import { CustomThemeContext } from "../../contexts/ThemeContext";
 import blogData from "../../data/blog-data";
+import { dashboardCMS } from "../../cms/dashboard";
 
 const DashboardPage: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>(() => {
@@ -43,7 +44,7 @@ const DashboardPage: React.FC = () => {
             mb: 2,
           }}
         >
-          <Typography variant="h4">Blog Management Dashboard</Typography>
+          <Typography variant="h4">{dashboardCMS.title}</Typography>
           <IconButton onClick={toggleColorMode} color="inherit">
             {theme.palette.mode === "dark" ? <LightMode /> : <DarkMode />}
           </IconButton>
