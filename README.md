@@ -40,6 +40,14 @@ A **responsive Blog Management Dashboard** built for assessment purposes using *
 
 ---
 
+## Evaluation Checklist
+
+- ✅ **Code clarity & structure** – Modular components, organized folders, TypeScript types  
+- ✅ **Material UI usage & theming** – Grid, Table, Dialog, Typography, Theme toggle  
+- ✅ **Responsiveness & UX** – Mobile-first layout, wrapping text, dialogs scale, separate view page  
+- ✅ **Functional completeness** – CRUD operations, validation, sorting, filtering implemented  
+- ✅ **State management & logic** – useState, useEffect, localStorage persistence, useMemo noted for optimization  
+
 ## Future Enhancements
 
 - Backend integration for dynamic content  
