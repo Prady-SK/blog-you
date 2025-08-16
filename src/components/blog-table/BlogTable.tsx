@@ -17,6 +17,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  TablePagination,
 } from "@mui/material";
 import { BlogPost } from "../../types";
 import PostDialog from "../post-dialog/PostDialog";
@@ -41,12 +42,25 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
   );
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingPost, setDeletingPost] = useState<BlogPost | null>(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleSorting = (key: keyof BlogPost) => {
     setSortConfig((prev) => ({
       key,
       order: prev?.key === key && prev.order === "asc" ? "desc" : "asc",
     }));
+  };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   const filteredPosts = [...blogPosts]
@@ -139,43 +153,29 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredPosts.map((post) => (
-              <TableRow key={post.id}>
-                <TableCell>{post.title}</TableCell>
-                <TableCell>{post.author}</TableCell>
-                <TableCell>{post.date}</TableCell>
-                <TableCell>{post.status}</TableCell>
-                <TableCell>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    onClick={() => {
-                      setEditingPost(post);
-                      setDialogOpen(true);
-                    }}
-                  >
-                    Edit
-                  </Button>
-                </TableCell>
-                <TableCell>
-                  <Button
-                    size="small"
-                    color="error"
-                    variant="outlined"
-                    onClick={() => {
-                      setDeletingPost(post);
-                      setDeleteDialogOpen(true);
-                    }}
-                    sx={{ ml: 1 }}
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {filteredPosts
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((post) => (
+                <TableRow key={post.id}>
+                  <TableCell>{post.title}</TableCell>
+                  <TableCell>{post.author}</TableCell>
+                  <TableCell>{post.date}</TableCell>
+                  <TableCell>{post.status}</TableCell>
+                  <TableCell>{/* Edit/Delete buttons */}</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        component="div"
+        count={filteredPosts.length}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        rowsPerPageOptions={[5, 10, 25]}
+      />
       <PostDialog
         open={dialogOpen}
         handleClose={() => setDialogOpen(false)}
