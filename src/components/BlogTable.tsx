@@ -9,6 +9,8 @@ import {
   Paper,
   Typography,
   TableSortLabel,
+  TextField,
+  Box,
 } from "@mui/material";
 import { BlogPost } from "../types";
 
@@ -25,6 +27,7 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
     key: "date",
     order: "desc",
   });
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const handleSorting = (key: keyof BlogPost) => {
     setSortConfig((prev) => ({
@@ -33,24 +36,40 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
     }));
   };
 
-  const sortedPosts = [...blogPosts].sort((a, b) => {
-    const aValue = a[sortConfig.key];
-    const bValue = b[sortConfig.key];
+  const filteredPosts = [...blogPosts]
+    .filter(
+      (post) =>
+        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.author.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      const aValue = a[sortConfig.key];
+      const bValue = b[sortConfig.key];
 
-    if (typeof aValue === "string" && typeof bValue === "string") {
-      return sortConfig.order === "asc"
-        ? aValue.localeCompare(bValue)
-        : bValue.localeCompare(aValue);
-    }
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return sortConfig.order === "asc"
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
 
-    return 0;
-  });
+      return 0;
+    });
 
   return (
     <TableContainer component={Paper}>
       <Typography variant="h6" sx={{ padding: 2 }}>
         All Blog Posts
       </Typography>
+      <Box sx={{ padding: 2 }}>
+        <TextField
+          label="Search by Title or Author"
+          variant="outlined"
+          size="small"
+          fullWidth
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </Box>
       <Table>
         <TableHead>
           <TableRow>
@@ -80,13 +99,12 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedPosts.map((post) => (
+          {filteredPosts.map((post) => (
             <TableRow key={post.id}>
               <TableCell>{post.title}</TableCell>
               <TableCell>{post.author}</TableCell>
               <TableCell>{post.date}</TableCell>
               <TableCell>{post.status}</TableCell>
-              <TableCell>{/* Placeholder for Edit/Delete buttons */}</TableCell>
             </TableRow>
           ))}
         </TableBody>
