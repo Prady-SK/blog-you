@@ -18,9 +18,11 @@ import {
   DialogTitle,
   Grid,
   TablePagination,
+  Stack,
 } from "@mui/material";
 import { BlogPost } from "../../types";
 import PostDialog from "../post-dialog/PostDialog";
+import { useNavigate } from "react-router-dom";
 
 interface BlogTableProps {
   blogPosts: BlogPost[];
@@ -28,6 +30,7 @@ interface BlogTableProps {
 }
 
 const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
+  const navigate = useNavigate();
   const [sortConfig, setSortConfig] = useState<{
     key: keyof BlogPost;
     order: "asc" | "desc";
@@ -158,36 +161,43 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
             {filteredPosts
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((post) => (
-                <TableRow key={post.id}>
+                <TableRow
+                  key={post.id}
+                  hover
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => navigate(`/post/${post.id}`)}
+                >
                   <TableCell>{post.title}</TableCell>
                   <TableCell>{post.author}</TableCell>
                   <TableCell>{post.date}</TableCell>
                   <TableCell>{post.status}</TableCell>
                   <TableCell>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      onClick={() => {
-                        setEditingPost(post);
-                        setDialogOpen(true);
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      size="small"
-                      color="error"
-                      variant="outlined"
-                      onClick={() => {
-                        setDeletingPost(post);
-                        setDeleteDialogOpen(true);
-                      }}
-                      sx={{ ml: 1 }}
-                    >
-                      Delete
-                    </Button>
+                    <Stack direction="row" spacing={1}>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEditingPost(post);
+                          setDialogOpen(true);
+                        }}
+                      >
+                        Edit
+                      </Button>
+
+                      <Button
+                        size="small"
+                        color="error"
+                        variant="outlined"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDeletingPost(post);
+                          setDeleteDialogOpen(true);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               ))}
