@@ -46,7 +46,6 @@ const ViewPage: React.FC = () => {
         p: 3,
       }}
     >
-      {/* Back button */}
       <Button
         variant="outlined"
         onClick={() => navigate("/")}
@@ -55,7 +54,6 @@ const ViewPage: React.FC = () => {
         {viewPostCMS.backButton}
       </Button>
 
-      {/* Main content */}
       <Paper
         sx={{
           p: 3,
@@ -78,7 +76,8 @@ const ViewPage: React.FC = () => {
         <Typography
           variant="body1"
           sx={{
-            whiteSpace: "pre-line",
+            whiteSpace: "normal",
+            wordBreak: "break-word",
             lineHeight: 1.7,
             color: theme.palette.text.primary,
           }}

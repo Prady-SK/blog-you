@@ -48,20 +48,16 @@ const BlogTableBody: React.FC<Props> = ({
               transition: "background-color 0.2s ease",
             }}
           >
-            {/* Title */}
             <TableCell sx={{ fontWeight: 500 }}>{post.title}</TableCell>
 
-            {/* Author */}
             <TableCell sx={{ color: "text.secondary", fontSize: "0.9rem" }}>
               {post.author}
             </TableCell>
 
-            {/* Date */}
             <TableCell sx={{ color: "text.secondary", fontSize: "0.85rem" }}>
               {post.date}
             </TableCell>
 
-            {/* Status */}
             <TableCell>
               <Chip
                 label={post.status}
@@ -71,7 +67,6 @@ const BlogTableBody: React.FC<Props> = ({
               />
             </TableCell>
 
-            {/* Actions */}
             <TableCell>
               <Stack direction="row" spacing={1}>
                 <Button

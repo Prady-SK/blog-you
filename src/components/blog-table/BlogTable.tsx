@@ -84,7 +84,6 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
           backgroundColor: theme.palette.background.paper,
         }}
       >
-        {/* Toolbar */}
         <Box
           sx={{
             p: { xs: 1.5, sm: 2 },
@@ -109,7 +108,6 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
           />
         </Box>
 
-        {/* Table or Card list */}
         {isMobile ? (
           <PostCardList
             posts={filteredPosts.slice(
@@ -195,7 +193,6 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
         }}
       />
 
-      {/* Delete confirmation */}
       <DeleteDialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}

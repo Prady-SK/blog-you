@@ -53,7 +53,6 @@ const PostCardList: React.FC<Props> = ({
           }}
           onClick={() => navigate(`/post/${post.id}`)}
         >
-          {/* Title */}
           <Typography
             variant="h6"
             gutterBottom
@@ -66,7 +65,6 @@ const PostCardList: React.FC<Props> = ({
             {post.title}
           </Typography>
 
-          {/* Meta Info */}
           <Stack
             direction="row"
             flexWrap="wrap"
@@ -93,7 +91,6 @@ const PostCardList: React.FC<Props> = ({
 
           <Divider sx={{ my: 1 }} />
 
-          {/* Action Buttons */}
           <Stack direction="row" spacing={1}>
             <IconButton
               size="small"

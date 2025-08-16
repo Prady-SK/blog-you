@@ -29,7 +29,6 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
   );
 };
 
-// Helper to catch errors in rendering children
 const ErrorCatcher: React.FC<{
   children: React.ReactNode;
   onError: () => void;

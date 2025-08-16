@@ -28,7 +28,6 @@ const BlogTableHead: React.FC<Props> = ({ sortConfig, onSortChange }) => {
   return (
     <TableHead>
       <TableRow>
-        {/* Title with sort */}
         <TableCell sx={headCellStyle}>
           <TableSortLabel
             active={sortConfig.key === "title"}
@@ -42,14 +41,12 @@ const BlogTableHead: React.FC<Props> = ({ sortConfig, onSortChange }) => {
           </TableSortLabel>
         </TableCell>
 
-        {/* Author */}
         <TableCell sx={headCellStyle}>
           <Typography variant="body2" fontWeight={600}>
             {blogTableCMS.tableHeaders.author}
           </Typography>
         </TableCell>
 
-        {/* Date with sort */}
         <TableCell sx={headCellStyle}>
           <TableSortLabel
             active={sortConfig.key === "date"}
@@ -62,14 +59,12 @@ const BlogTableHead: React.FC<Props> = ({ sortConfig, onSortChange }) => {
           </TableSortLabel>
         </TableCell>
 
-        {/* Status */}
         <TableCell sx={headCellStyle}>
           <Typography variant="body2" fontWeight={600}>
             {blogTableCMS.tableHeaders.status}
           </Typography>
         </TableCell>
 
-        {/* Actions */}
         <TableCell sx={headCellStyle}>
           <Typography variant="body2" fontWeight={600}>
             {blogTableCMS.tableHeaders.actions}
