@@ -63,24 +63,26 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
     setPage(0);
   };
 
-  const filteredPosts = [...blogPosts]
-    .filter(
-      (post) =>
-        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.author.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      const aValue = a[sortConfig.key];
-      const bValue = b[sortConfig.key];
+  const filteredPosts = useMemo(() => {
+    return [...blogPosts]
+      .filter(
+        (post) =>
+          post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          post.author.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .sort((a, b) => {
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
 
-      if (typeof aValue === "string" && typeof bValue === "string") {
-        return sortConfig.order === "asc"
-          ? aValue.localeCompare(bValue)
-          : bValue.localeCompare(aValue);
-      }
+        if (typeof aValue === "string" && typeof bValue === "string") {
+          return sortConfig.order === "asc"
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue);
+        }
 
-      return 0;
-    });
+        return 0;
+      });
+  }, [blogPosts, searchTerm, sortConfig]);
 
   return (
     <>
