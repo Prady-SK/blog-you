@@ -1,46 +1,56 @@
-# Getting Started with Create React App
+# Blog Management Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A **responsive Blog Management Dashboard** built for assessment purposes using **React** and **Material UI v5**. Supports basic CRUD operations with in-memory state management.  
 
-## Available Scripts
+**Live Demo:** [https://kilowott-blog.netlify.app](https://kilowott-blog.netlify.app)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Dashboard with **blog table** (Title, Author, Date, Status)  
+- **Search & Sort** (Title & Date)  
+- **Add/Edit/Delete** posts via modal/dialog  
+- **View Post Page** with full details  
+- **Responsive & Mobile-first design**  
+- **Pagination** & **Theme Toggle (Light/Dark)**  
+- **LocalStorage persistence**  
+- Form **validation** for all fields  
+- Basic **test cases** included
+- CMS for all labels
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `npm test`
+## Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- React (latest) + TypeScript  
+- Material UI v5  
+- Functional components & hooks (`useState`, `useEffect`)  
+- No Redux or backend API  
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Best Practices
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Clean, modular, maintainable code  
+- `useMemo` for performance  
+- Mobile-friendly layout & UX  
+- Future accessibility improvements possible  
+- Incremental commits reflect real development flow  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Future Enhancements
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Backend integration for dynamic content  
+- Advanced styling & theme options  
+- More accessibility (`aria` tags, keyboard navigation)  
+- Extended test coverage & performance optimizations  
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Installation
+Clone the repo
+npm i       # Install dependencies
+npm run start # Start development server
+npm run test  # Run tests
