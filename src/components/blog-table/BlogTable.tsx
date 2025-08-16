@@ -1,16 +1,6 @@
 import React, { useState, useMemo } from "react";
-import {
-  TablePagination,
-  Paper,
-  useMediaQuery,
-  Box,
-  TextField,
-  MenuItem,
-  IconButton,
-} from "@mui/material";
+import { TablePagination, Paper, useMediaQuery, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { BlogPost } from "../../types";
 import { useNavigate } from "react-router-dom";
 import BlogTableToolbar from "./BlogTableToolbar";
