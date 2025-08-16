@@ -48,7 +48,7 @@ const BlogTableToolbar: React.FC<Props> = ({
         spacing={1} // small gap between elements only
         alignItems="center"
         sx={{
-          m: 0, // no margin on grid
+          my: 2, // no margin on grid
           width: "100%",
         }}
       >
@@ -70,7 +70,7 @@ const BlogTableToolbar: React.FC<Props> = ({
         {isMobile && (
           <Grid
             size={{ xs: 12 }}
-            sx={{ display: "flex", alignItems: "center" }}
+            sx={{ display: "flex", alignItems: "center", marginY: 1 }}
           >
             <TextField
               select

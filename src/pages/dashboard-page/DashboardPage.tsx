@@ -15,8 +15,8 @@ import { dashboardCMS } from "../../cms/dashboard";
 
 const DashboardPage: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>(() => {
-    const storedPosts = localStorage.getItem("localBlogData");
-    return storedPosts ? JSON.parse(storedPosts) : blogData;
+    const stored = localStorage.getItem("localBlogData");
+    return stored ? JSON.parse(stored) : blogData;
   });
 
   const theme = useTheme();
@@ -34,19 +34,23 @@ const DashboardPage: React.FC = () => {
         color: theme.palette.text.primary,
       }}
     >
-      <Container maxWidth="lg" sx={{ pt: 4, pb: 4 }}>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            mb: 3,
           }}
         >
-          <Typography variant="h4">{dashboardCMS.title}</Typography>
+          <Typography variant="h4" fontWeight={600}>
+            {dashboardCMS.title}
+          </Typography>
           <IconButton onClick={toggleColorMode} color="inherit">
             {theme.palette.mode === "dark" ? <LightMode /> : <DarkMode />}
           </IconButton>
         </Box>
+
         <BlogTable blogPosts={blogPosts} setBlogPosts={setBlogPosts} />
       </Container>
     </Box>

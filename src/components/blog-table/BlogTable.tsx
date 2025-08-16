@@ -72,12 +72,15 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
   };
 
   return (
-    <Box sx={{ mt: { xs: 1, md: 3 }, borderRadius: 2 }}>
+    <Box sx={{ mt: { xs: 0, md: 3 }, borderRadius: 2 }}>
       <Paper
         sx={{
           borderRadius: 3,
           overflow: "hidden",
-          boxShadow: 3,
+          boxShadow: {
+            xs: 1,
+            md: 3,
+          },
           backgroundColor: theme.palette.background.paper,
         }}
       >
@@ -124,7 +127,7 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
             navigate={navigate}
           />
         ) : (
-          <Box sx={{ overflowX: "auto" }}>
+          <Box>
             <table style={{ width: "100%", borderSpacing: 0 }}>
               <BlogTableHead
                 sortConfig={sortConfig}
@@ -150,34 +153,33 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
         )}
       </Paper>
 
-      {/* Pagination */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: { xs: "center", sm: "flex-end" },
-          mt: 2,
-        }}
-      >
-        <TablePagination
+      {filteredPosts.length > 0 && (
+        <Box
           sx={{
-            ".MuiTablePagination-toolbar": { px: 0 },
-            ".MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows":
-              { fontSize: "0.85rem" },
+            display: "flex",
+            justifyContent: { xs: "center", sm: "flex-end" },
+            mt: 2,
           }}
-          component="div"
-          count={filteredPosts.length}
-          page={page}
-          onPageChange={(_, newPage) => setPage(newPage)}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={(e) => {
-            setRowsPerPage(parseInt(e.target.value, 10));
-            setPage(0);
-          }}
-          rowsPerPageOptions={[5, 10, 25]}
-        />
-      </Box>
-
-      {/* Add/Edit dialog */}
+        >
+          <TablePagination
+            sx={{
+              ".MuiTablePagination-toolbar": { px: 0 },
+              ".MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows":
+                { fontSize: "0.85rem" },
+            }}
+            component="div"
+            count={filteredPosts.length}
+            page={page}
+            onPageChange={(_, newPage) => setPage(newPage)}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={(e) => {
+              setRowsPerPage(parseInt(e.target.value, 10));
+              setPage(0);
+            }}
+            rowsPerPageOptions={[5, 10, 25]}
+          />
+        </Box>
+      )}
       <PostDialog
         open={dialogOpen}
         handleClose={() => setDialogOpen(false)}

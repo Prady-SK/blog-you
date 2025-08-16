@@ -21,7 +21,7 @@ const ViewPage: React.FC = () => {
         sx={{
           minHeight: "100vh",
           bgcolor: theme.palette.background.default,
-          p: { xs: 2, sm: 3 },
+          p: 3,
         }}
       >
         <Typography variant="h6" color="error">
@@ -43,18 +43,14 @@ const ViewPage: React.FC = () => {
       sx={{
         minHeight: "100vh",
         bgcolor: theme.palette.background.default,
-        p: { xs: 2, sm: 3 },
+        p: 3,
       }}
     >
       {/* Back button */}
       <Button
         variant="outlined"
         onClick={() => navigate("/")}
-        sx={{
-          mb: 2,
-          borderRadius: 2,
-          textTransform: "none",
-        }}
+        sx={{ mb: 2, borderRadius: 2, textTransform: "none" }}
       >
         {viewPostCMS.backButton}
       </Button>
@@ -62,22 +58,16 @@ const ViewPage: React.FC = () => {
       {/* Main content */}
       <Paper
         sx={{
-          p: { xs: 2, sm: 3 },
+          p: 3,
           borderRadius: 3,
-          boxShadow: 3,
+          boxShadow: 2,
           bgcolor: theme.palette.background.paper,
         }}
       >
-        {/* Title */}
-        <Typography
-          variant="h4"
-          gutterBottom
-          sx={{ color: theme.palette.text.primary, fontWeight: 600 }}
-        >
+        <Typography variant="h4" gutterBottom fontWeight={600}>
           {post.title}
         </Typography>
 
-        {/* Meta info */}
         <Typography
           variant="subtitle2"
           sx={{ color: theme.palette.text.secondary, mb: 2 }}
@@ -85,13 +75,12 @@ const ViewPage: React.FC = () => {
           {viewPostCMS.authorPrefix} {post.author} | {post.date} | {post.status}
         </Typography>
 
-        {/* Content */}
         <Typography
           variant="body1"
           sx={{
             whiteSpace: "pre-line",
-            color: theme.palette.text.primary,
             lineHeight: 1.7,
+            color: theme.palette.text.primary,
           }}
         >
           {post.content}

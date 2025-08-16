@@ -22,7 +22,6 @@ const BlogTableHead: React.FC<Props> = ({ sortConfig, onSortChange }) => {
   const headCellStyle = {
     fontWeight: 600,
     color: "text.primary",
-    backgroundColor: "background.default",
     py: 1.5,
   } as const;
 
@@ -56,7 +55,6 @@ const BlogTableHead: React.FC<Props> = ({ sortConfig, onSortChange }) => {
             active={sortConfig.key === "date"}
             direction={sortConfig.key === "date" ? sortConfig.order : "asc"}
             onClick={createSortHandler("date")}
-            sx={{ fontWeight: "inherit" }}
           >
             <Typography variant="body2" fontWeight={600}>
               {blogTableCMS.tableHeaders.date}

@@ -11,6 +11,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { BlogPost } from "../../types";
+import { blogTableCMS } from "../../cms/blogTable";
 
 interface Props {
   posts: BlogPost[];
@@ -25,6 +26,13 @@ const PostCardList: React.FC<Props> = ({
   onDelete,
   navigate,
 }) => {
+  if (posts.length === 0) {
+    return (
+      <Box sx={{ py: 4, textAlign: "center", color: "text.secondary" }}>
+        <Typography variant="body1">{blogTableCMS.noPostsMessage}</Typography>
+      </Box>
+    );
+  }
   return (
     <Stack spacing={2} sx={{ p: 0 }}>
       {posts.map((post) => (

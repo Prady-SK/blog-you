@@ -15,4 +15,5 @@ export const blogTableCMS = {
     `Are you sure you want to delete "${title}"?`,
   cancel: "Cancel",
   confirmDelete: "Delete",
+  noPostsMessage: "No posts found.",
 };
