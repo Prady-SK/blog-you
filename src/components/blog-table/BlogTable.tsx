@@ -95,48 +95,16 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
               setEditingPost(undefined);
               setDialogOpen(true);
             }}
+            sortConfig={sortConfig}
+            onSortChange={handleSort}
+            onToggleOrder={() =>
+              setSortConfig((prev) => ({
+                ...prev,
+                order: prev.order === "asc" ? "desc" : "asc",
+              }))
+            }
           />
         </Box>
-
-        {/* Mobile sort controls */}
-        {isMobile && (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              px: 2,
-              pb: 1,
-              gap: 1,
-            }}
-          >
-            <TextField
-              select
-              size="small"
-              label="Sort by"
-              value={sortConfig.key}
-              onChange={(e) => handleSort(e.target.value as keyof BlogPost)}
-              sx={{ minWidth: 140 }}
-            >
-              <MenuItem value="title">Title</MenuItem>
-              <MenuItem value="date">Date</MenuItem>
-            </TextField>
-
-            <IconButton
-              onClick={() =>
-                setSortConfig((prev) => ({
-                  ...prev,
-                  order: prev.order === "asc" ? "desc" : "asc",
-                }))
-              }
-            >
-              {sortConfig.order === "asc" ? (
-                <ArrowUpwardIcon fontSize="small" />
-              ) : (
-                <ArrowDownwardIcon fontSize="small" />
-              )}
-            </IconButton>
-          </Box>
-        )}
 
         {/* Table or Card list */}
         {isMobile ? (

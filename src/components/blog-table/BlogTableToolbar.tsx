@@ -1,18 +1,38 @@
-import React from "react";
-import { TextField, Button, Paper, Grid } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  IconButton,
+  MenuItem, // ⬅️ add
+  useMediaQuery,
+  Paper, // ⬅️ add
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles"; // ⬅️ add
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward"; // ⬅️ add
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward"; // ⬅️ add
 import { blogTableCMS } from "../../cms/blogTable";
+import { BlogPost } from "../../types";
 
 interface Props {
   searchTerm: string;
   setSearchTerm: (value: string) => void;
   onAddPost: () => void;
+  sortConfig: { key: keyof BlogPost; order: "asc" | "desc" }; // ⬅️ add this
+  onSortChange: (key: keyof BlogPost) => void; // ⬅️ add this
+  onToggleOrder: () => void; // ⬅️ add this
 }
 
 const BlogTableToolbar: React.FC<Props> = ({
   searchTerm,
   setSearchTerm,
   onAddPost,
+  sortConfig,
+  onSortChange,
+  onToggleOrder,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Paper
       elevation={0}
@@ -32,7 +52,6 @@ const BlogTableToolbar: React.FC<Props> = ({
           width: "100%",
         }}
       >
-        {/* Search Field */}
         <Grid size={{ xs: 12, sm: 8, md: 6 }}>
           <TextField
             label={blogTableCMS.searchPlaceholder}
@@ -48,8 +67,33 @@ const BlogTableToolbar: React.FC<Props> = ({
             }}
           />
         </Grid>
+        {isMobile && (
+          <Grid
+            size={{ xs: 12 }}
+            sx={{ display: "flex", alignItems: "center" }}
+          >
+            <TextField
+              select
+              size="small"
+              label="Sort by"
+              value={sortConfig.key}
+              onChange={(e) => onSortChange(e.target.value as keyof BlogPost)}
+              sx={{ minWidth: 120, mr: 1 }}
+            >
+              <MenuItem value="title">Title</MenuItem>
+              <MenuItem value="date">Date</MenuItem>
+            </TextField>
 
-        {/* Add Button */}
+            <IconButton onClick={onToggleOrder}>
+              {sortConfig.order === "asc" ? (
+                <ArrowUpwardIcon fontSize="small" />
+              ) : (
+                <ArrowDownwardIcon fontSize="small" />
+              )}
+            </IconButton>
+          </Grid>
+        )}
+
         <Grid
           size={{ xs: 12, sm: 4, md: 6 }}
           sx={{
