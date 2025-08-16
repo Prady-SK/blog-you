@@ -161,7 +161,32 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
                   <TableCell>{post.author}</TableCell>
                   <TableCell>{post.date}</TableCell>
                   <TableCell>{post.status}</TableCell>
-                  <TableCell>{/* Edit/Delete buttons */}</TableCell>
+                  <TableCell>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => {
+                        setEditingPost(post);
+                        setDialogOpen(true);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      size="small"
+                      color="error"
+                      variant="outlined"
+                      onClick={() => {
+                        setDeletingPost(post);
+                        setDeleteDialogOpen(true);
+                      }}
+                      sx={{ ml: 1 }}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
