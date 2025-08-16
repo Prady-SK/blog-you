@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Typography } from "@mui/material";
 import { BlogPost } from "./types";
-import BlogTable from "./components/BlogTable";
+import BlogTable from "./components/blog-table/BlogTable";
 
 const App: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([
