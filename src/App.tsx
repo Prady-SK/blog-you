@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Typography } from "@mui/material";
 import { BlogPost } from "./types";
+import "./App.css";
 import BlogTable from "./components/blog-table/BlogTable";
 
 const App: React.FC = () => {
@@ -32,9 +33,9 @@ const App: React.FC = () => {
   ]);
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" gutterBottom>
-        Blog Dashboard
+        Blog Management Dashboard
       </Typography>
       <BlogTable blogPosts={blogPosts} setBlogPosts={setBlogPosts} />
     </Container>

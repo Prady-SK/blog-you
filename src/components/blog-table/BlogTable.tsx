@@ -16,6 +16,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
 } from "@mui/material";
 import { BlogPost } from "../../types";
 import PostDialog from "../post-dialog/PostDialog";
@@ -69,31 +70,43 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <Typography variant="h6" sx={{ padding: 2 }}>
+      <TableContainer component={Paper} sx={{ mt: 2, overflowX: "auto" }}>
+        <Typography variant="h4" component="h2" sx={{ mb: 2 }}>
           All Blog Posts
         </Typography>
-        <Box sx={{ padding: 2 }}>
-          <TextField
-            label="Search by Title or Author"
-            variant="outlined"
-            size="small"
-            fullWidth
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </Box>
-        <Box sx={{ padding: 2, display: "flex", justifyContent: "flex-end" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              setEditingPost(undefined);
-              setDialogOpen(true);
-            }}
-          >
-            Add New Post
-          </Button>
+        <Box mb={2}>
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <TextField
+                label="Search by Title or Author"
+                variant="outlined"
+                size="small"
+                fullWidth
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </Grid>
+
+            <Grid
+              size={{ xs: 12, md: 6 }}
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "flex-start", md: "flex-end" },
+                mt: { xs: 1, md: 0 },
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  setEditingPost(undefined);
+                  setDialogOpen(true);
+                }}
+              >
+                Add New Post
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
         <Table>
           <TableHead>
