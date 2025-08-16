@@ -21,12 +21,20 @@ const App: React.FC = () => {
       status: "Draft",
       date: "2025-08-13",
     },
+    {
+      id: 3,
+      title: "ABC of performance",
+      author: "Shirgaonkar",
+      content: "This is the ABC of performance enhancement in React",
+      status: "Published",
+      date: "2025-08-10",
+    },
   ]);
 
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" gutterBottom>
-        Blog You
+        Blog Dashboard
       </Typography>
       <BlogTable blogPosts={blogPosts} setBlogPosts={setBlogPosts} />
     </Container>
