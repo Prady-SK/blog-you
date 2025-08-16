@@ -32,16 +32,14 @@ const DashboardPage: React.FC = () => {
         minHeight: "100vh",
         bgcolor: theme.palette.background.default,
         color: theme.palette.text.primary,
-        p: 2,
       }}
     >
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Container maxWidth="lg" sx={{ pt: 4, pb: 4 }}>
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            mb: 2,
           }}
         >
           <Typography variant="h4">{dashboardCMS.title}</Typography>

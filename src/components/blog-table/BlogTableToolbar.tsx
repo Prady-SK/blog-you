@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, TextField, Button, styled, Paper } from "@mui/material";
+import { TextField, Button, Paper, Grid } from "@mui/material";
 import { blogTableCMS } from "../../cms/blogTable";
 
 interface Props {
@@ -8,26 +8,32 @@ interface Props {
   onAddPost: () => void;
 }
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: (theme.vars ?? theme).palette.text.secondary,
-  ...theme.applyStyles("dark", {
-    backgroundColor: "#1A2027",
-  }),
-}));
-
 const BlogTableToolbar: React.FC<Props> = ({
   searchTerm,
   setSearchTerm,
   onAddPost,
 }) => {
   return (
-    <Grid container spacing={2} sx={{ mb: 2, mt: 2 }}>
-      <Grid size={{ xs: 12, sm: 4, md: 6 }}>
-        <Item>
+    <Paper
+      elevation={0}
+      sx={{
+        borderRadius: 0, // so edges align perfectly
+        backgroundColor: "background.default",
+        m: 0, // no margin
+        p: 0, // no padding
+      }}
+    >
+      <Grid
+        container
+        spacing={1} // small gap between elements only
+        alignItems="center"
+        sx={{
+          m: 0, // no margin on grid
+          width: "100%",
+        }}
+      >
+        {/* Search Field */}
+        <Grid size={{ xs: 12, sm: 8, md: 6 }}>
           <TextField
             label={blogTableCMS.searchPlaceholder}
             variant="outlined"
@@ -35,24 +41,41 @@ const BlogTableToolbar: React.FC<Props> = ({
             fullWidth
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 2,
+              },
+            }}
           />
-        </Item>
-      </Grid>
-      <Grid
-        size={{ xs: 12, sm: 4, md: 6 }}
-        sx={{
-          display: "flex",
-          justifyContent: { xs: "flex-start", md: "flex-end" },
-          mt: { xs: 1, md: 0 },
-        }}
-      >
-        <Item>
-          <Button variant="contained" color="primary" onClick={onAddPost}>
+        </Grid>
+
+        {/* Add Button */}
+        <Grid
+          size={{ xs: 12, sm: 4, md: 6 }}
+          sx={{
+            display: "flex",
+            justifyContent: { xs: "flex-start", sm: "flex-end" },
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            sx={{
+              borderRadius: 2,
+              px: 3,
+              fontWeight: 600,
+              textTransform: "none",
+              boxShadow: 2,
+              "&:hover": { boxShadow: 4 },
+            }}
+            onClick={onAddPost}
+          >
             {blogTableCMS.addNewPost}
           </Button>
-        </Item>
+        </Grid>
       </Grid>
-    </Grid>
+    </Paper>
   );
 };
 

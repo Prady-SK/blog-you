@@ -1,12 +1,14 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Box, Typography, Button, Container, Paper } from "@mui/material";
+import { Box, Typography, Button, Paper } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { BlogPost } from "../../types";
 import { viewPostCMS } from "../../cms/viewPost";
 
 const ViewPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const storedPosts = localStorage.getItem("localBlogData");
   const posts: BlogPost[] = storedPosts ? JSON.parse(storedPosts) : [];
@@ -15,38 +17,87 @@ const ViewPage: React.FC = () => {
 
   if (!post) {
     return (
-      <Container sx={{ mt: 4 }}>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          bgcolor: theme.palette.background.default,
+          p: { xs: 2, sm: 3 },
+        }}
+      >
         <Typography variant="h6" color="error">
           {viewPostCMS.notFoundMessage}
         </Typography>
-        <Button onClick={() => navigate("/")} sx={{ mt: 2 }}>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/")}
+          sx={{ mt: 2 }}
+        >
           {viewPostCMS.backToDashboard}
         </Button>
-      </Container>
+      </Box>
     );
   }
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-      <Button variant="outlined" onClick={() => navigate("/")} sx={{ mb: 2 }}>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        bgcolor: theme.palette.background.default,
+        p: { xs: 2, sm: 3 },
+      }}
+    >
+      {/* Back button */}
+      <Button
+        variant="outlined"
+        onClick={() => navigate("/")}
+        sx={{
+          mb: 2,
+          borderRadius: 2,
+          textTransform: "none",
+        }}
+      >
         {viewPostCMS.backButton}
       </Button>
 
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h4" gutterBottom>
+      {/* Main content */}
+      <Paper
+        sx={{
+          p: { xs: 2, sm: 3 },
+          borderRadius: 3,
+          boxShadow: 3,
+          bgcolor: theme.palette.background.paper,
+        }}
+      >
+        {/* Title */}
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{ color: theme.palette.text.primary, fontWeight: 600 }}
+        >
           {post.title}
         </Typography>
-        <Typography variant="subtitle2" color="textSecondary">
+
+        {/* Meta info */}
+        <Typography
+          variant="subtitle2"
+          sx={{ color: theme.palette.text.secondary, mb: 2 }}
+        >
           {viewPostCMS.authorPrefix} {post.author} | {post.date} | {post.status}
         </Typography>
 
-        <Box sx={{ mt: 3 }}>
-          <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
-            {post.content}
-          </Typography>
-        </Box>
+        {/* Content */}
+        <Typography
+          variant="body1"
+          sx={{
+            whiteSpace: "pre-line",
+            color: theme.palette.text.primary,
+            lineHeight: 1.7,
+          }}
+        >
+          {post.content}
+        </Typography>
       </Paper>
-    </Container>
+    </Box>
   );
 };
 

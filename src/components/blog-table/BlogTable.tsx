@@ -1,10 +1,18 @@
 import React, { useState, useMemo } from "react";
-import { TableContainer, Paper, Table, TablePagination } from "@mui/material";
+import {
+  TablePagination,
+  Paper,
+  useMediaQuery,
+  Box,
+  Table,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { BlogPost } from "../../types";
 import { useNavigate } from "react-router-dom";
 import BlogTableToolbar from "./BlogTableToolbar";
 import BlogTableHead from "./BlogTableHead";
 import BlogTableBody from "./BlogTableBody";
+import PostCardList from "./PostCardList";
 import PostDialog from "../post-dialog/PostDialog";
 import DeleteDialog from "./DeleteDialog";
 
@@ -14,7 +22,10 @@ interface BlogTableProps {
 }
 
 const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
+
   const [sortConfig, setSortConfig] = useState<{
     key: keyof BlogPost;
     order: "asc" | "desc";
@@ -57,8 +68,16 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
   };
 
   return (
-    <>
-      <TableContainer component={Paper} sx={{ mt: 2 }}>
+    <Box sx={{ mt: { xs: 0, md: 3 }, borderRadius: { md: 2 } }}>
+      <Box
+        sx={{
+          py: { xs: 2, sm: 2 },
+          borderBottom: !isMobile
+            ? `1px solid ${theme.palette.divider}`
+            : "none",
+          backgroundColor: "transparent",
+        }}
+      >
         <BlogTableToolbar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -67,39 +86,91 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
             setDialogOpen(true);
           }}
         />
-        <Table>
-          <BlogTableHead sortConfig={sortConfig} onSortChange={handleSort} />
-          <BlogTableBody
-            posts={filteredPosts.slice(
-              page * rowsPerPage,
-              page * rowsPerPage + rowsPerPage
-            )}
-            onEdit={(post: BlogPost) => {
-              setEditingPost(post);
-              setDialogOpen(true);
-            }}
-            onDelete={(post: BlogPost) => {
-              setDeletingPost(post);
-              setDeleteDialogOpen(true);
-            }}
-            navigate={navigate}
-          />
-        </Table>
-      </TableContainer>
+      </Box>
 
-      <TablePagination
-        component="div"
-        count={filteredPosts.length}
-        page={page}
-        onPageChange={(_, newPage) => setPage(newPage)}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={(e) => {
-          setRowsPerPage(parseInt(e.target.value, 10));
-          setPage(0);
+      {/* Table or Card list */}
+      {isMobile ? (
+        <PostCardList
+          posts={filteredPosts.slice(
+            page * rowsPerPage,
+            page * rowsPerPage + rowsPerPage
+          )}
+          onEdit={(post) => {
+            setEditingPost(post);
+            setDialogOpen(true);
+          }}
+          onDelete={(post) => {
+            setDeletingPost(post);
+            setDeleteDialogOpen(true);
+          }}
+          navigate={navigate}
+        />
+      ) : (
+        <Paper
+          sx={{
+            borderRadius: 3,
+            overflow: "hidden",
+            boxShadow: 3,
+            backgroundColor: theme.palette.background.paper,
+          }}
+        >
+          <Box sx={{ overflowX: "auto" }}>
+            <Table style={{ width: "100%", borderSpacing: 0 }}>
+              <BlogTableHead
+                sortConfig={sortConfig}
+                onSortChange={handleSort}
+              />
+              <BlogTableBody
+                posts={filteredPosts.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )}
+                onEdit={(post) => {
+                  setEditingPost(post);
+                  setDialogOpen(true);
+                }}
+                onDelete={(post) => {
+                  setDeletingPost(post);
+                  setDeleteDialogOpen(true);
+                }}
+                navigate={navigate}
+              />
+            </Table>
+          </Box>
+        </Paper>
+      )}
+
+      {/* Pagination */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: { xs: "center", sm: "flex-end" },
+          mt: isMobile ? 1 : 2,
+          px: isMobile ? 0 : 2,
         }}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
+      >
+        <TablePagination
+          sx={{
+            ".MuiTablePagination-toolbar": { px: 0 },
+            ".MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows":
+              {
+                fontSize: "0.85rem",
+              },
+          }}
+          component="div"
+          count={filteredPosts.length}
+          page={page}
+          onPageChange={(_, newPage) => setPage(newPage)}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={(e) => {
+            setRowsPerPage(parseInt(e.target.value, 10));
+            setPage(0);
+          }}
+          rowsPerPageOptions={[5, 10, 25]}
+        />
+      </Box>
 
+      {/* Add/Edit dialog */}
       <PostDialog
         open={dialogOpen}
         handleClose={() => setDialogOpen(false)}
@@ -115,6 +186,7 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
         }}
       />
 
+      {/* Delete confirmation */}
       <DeleteDialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
@@ -128,7 +200,7 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogPosts, setBlogPosts }) => {
         }}
         postTitle={deletingPost?.title || ""}
       />
-    </>
+    </Box>
   );
 };
 

@@ -1,5 +1,11 @@
 import React from "react";
-import { TableHead, TableRow, TableCell, TableSortLabel } from "@mui/material";
+import {
+  TableHead,
+  TableRow,
+  TableCell,
+  TableSortLabel,
+  Typography,
+} from "@mui/material";
 import { BlogPost } from "../../types";
 import { blogTableCMS } from "../../cms/blogTable";
 
@@ -9,30 +15,68 @@ interface Props {
 }
 
 const BlogTableHead: React.FC<Props> = ({ sortConfig, onSortChange }) => {
+  const createSortHandler = (key: keyof BlogPost) => () => {
+    onSortChange(key);
+  };
+
+  const headCellStyle = {
+    fontWeight: 600,
+    color: "text.primary",
+    backgroundColor: "background.default",
+    py: 1.5,
+  } as const;
+
   return (
     <TableHead>
       <TableRow>
-        <TableCell>
+        {/* Title with sort */}
+        <TableCell sx={headCellStyle}>
           <TableSortLabel
             active={sortConfig.key === "title"}
             direction={sortConfig.key === "title" ? sortConfig.order : "asc"}
-            onClick={() => onSortChange("title")}
+            onClick={createSortHandler("title")}
+            sx={{ fontWeight: "inherit" }}
           >
-            {blogTableCMS.tableHeaders.title}
+            <Typography variant="body2" fontWeight={600}>
+              {blogTableCMS.tableHeaders.title}
+            </Typography>
           </TableSortLabel>
         </TableCell>
-        <TableCell>{blogTableCMS.tableHeaders.author}</TableCell>
-        <TableCell>
+
+        {/* Author */}
+        <TableCell sx={headCellStyle}>
+          <Typography variant="body2" fontWeight={600}>
+            {blogTableCMS.tableHeaders.author}
+          </Typography>
+        </TableCell>
+
+        {/* Date with sort */}
+        <TableCell sx={headCellStyle}>
           <TableSortLabel
             active={sortConfig.key === "date"}
             direction={sortConfig.key === "date" ? sortConfig.order : "asc"}
-            onClick={() => onSortChange("date")}
+            onClick={createSortHandler("date")}
+            sx={{ fontWeight: "inherit" }}
           >
-            {blogTableCMS.tableHeaders.date}
+            <Typography variant="body2" fontWeight={600}>
+              {blogTableCMS.tableHeaders.date}
+            </Typography>
           </TableSortLabel>
         </TableCell>
-        <TableCell>{blogTableCMS.tableHeaders.status}</TableCell>
-        <TableCell>{blogTableCMS.tableHeaders.actions}</TableCell>
+
+        {/* Status */}
+        <TableCell sx={headCellStyle}>
+          <Typography variant="body2" fontWeight={600}>
+            {blogTableCMS.tableHeaders.status}
+          </Typography>
+        </TableCell>
+
+        {/* Actions */}
+        <TableCell sx={headCellStyle}>
+          <Typography variant="body2" fontWeight={600}>
+            {blogTableCMS.tableHeaders.actions}
+          </Typography>
+        </TableCell>
       </TableRow>
     </TableHead>
   );

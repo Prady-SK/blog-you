@@ -1,5 +1,12 @@
 import React from "react";
-import { TableBody, TableRow, TableCell, Button, Stack } from "@mui/material";
+import {
+  TableBody,
+  TableRow,
+  TableCell,
+  Button,
+  Stack,
+  Chip,
+} from "@mui/material";
 import { BlogPost } from "../../types";
 import { blogTableCMS } from "../../cms/blogTable";
 
@@ -18,22 +25,61 @@ const BlogTableBody: React.FC<Props> = ({
 }) => {
   return (
     <TableBody>
-      {posts.map((post) => (
+      {posts.map((post, index) => (
         <TableRow
           key={post.id}
           hover
-          sx={{ cursor: "pointer" }}
+          sx={{
+            cursor: "pointer",
+            backgroundColor: index % 2 === 0 ? "transparent" : "action.hover",
+            "&:hover": {
+              backgroundColor: "action.selected",
+            },
+            transition: "background-color 0.2s ease",
+          }}
           onClick={() => navigate(`/post/${post.id}`)}
         >
-          <TableCell>{post.title}</TableCell>
-          <TableCell>{post.author}</TableCell>
-          <TableCell>{post.date}</TableCell>
-          <TableCell>{post.status}</TableCell>
+          {/* Title */}
+          <TableCell sx={{ fontWeight: 500, color: "text.primary" }}>
+            {post.title}
+          </TableCell>
+
+          {/* Author */}
+          <TableCell sx={{ color: "text.secondary", fontSize: "0.9rem" }}>
+            {post.author}
+          </TableCell>
+
+          {/* Date */}
+          <TableCell sx={{ color: "text.secondary", fontSize: "0.85rem" }}>
+            {post.date}
+          </TableCell>
+
+          {/* Status with color chip */}
+          <TableCell>
+            <Chip
+              label={post.status}
+              size="small"
+              color={post.status === "Published" ? "success" : "default"}
+              sx={{ fontSize: "0.75rem", fontWeight: 500, height: 22 }}
+            />
+          </TableCell>
+
+          {/* Actions */}
           <TableCell>
             <Stack direction="row" spacing={1}>
               <Button
                 size="small"
                 variant="outlined"
+                sx={{
+                  textTransform: "none",
+                  borderRadius: 1,
+                  fontSize: "0.8rem",
+                  fontWeight: 500,
+                  "&:hover": {
+                    backgroundColor: "primary.light",
+                    color: "white",
+                  },
+                }}
                 onClick={(e) => {
                   e.stopPropagation();
                   onEdit(post);
@@ -45,6 +91,13 @@ const BlogTableBody: React.FC<Props> = ({
                 size="small"
                 color="error"
                 variant="outlined"
+                sx={{
+                  textTransform: "none",
+                  borderRadius: 1,
+                  fontSize: "0.8rem",
+                  fontWeight: 500,
+                  "&:hover": { backgroundColor: "error.light", color: "white" },
+                }}
                 onClick={(e) => {
                   e.stopPropagation();
                   onDelete(post);
